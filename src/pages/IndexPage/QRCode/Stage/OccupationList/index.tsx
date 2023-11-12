@@ -1,37 +1,37 @@
-import * as React from "react";
-import Styles from "./index.module.scss";
-import OccupationListItem from "./Item";
+import * as React from 'react'
+import Styles from './index.module.scss'
+import OccupationListItem from './Item'
 
-import { connect } from "react-redux";
-import { changeOccupation } from "@/store/occupation/action";
-import ParticleSystem from "@/THREE";
-import isMobile from "@/utils/isMobile";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { BloomPass } from "three/examples/jsm/postprocessing/BloomPass";
+import { connect } from 'react-redux'
+import { changeOccupation } from '@/store/occupation/action'
+import ParticleSystem from '@/THREE'
+import isMobile from '@/utils/isMobile'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
+import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass'
 
 type OccupationListProps = React.PropsWithChildren<{
-  changeOccupation: Function;
-  className: string;
-  ParticleContext: ParticleSystem;
-}>;
+  changeOccupation: Function
+  className: string
+  ParticleContext: ParticleSystem
+}>
 
 const degree = {
   a: 0,
   b: 72,
   c: 144,
   d: 216,
-  e: 288,
-};
-let inch: number;
+  e: 288
+}
+let inch: number
 if (isMobile()) {
-  inch = 4;
+  inch = 4
 } else {
-  inch = 8;
+  inch = 8
 }
 
 const cv = (
   <svg
-    //@ts-expect-error
+    // @ts-expect-error
     t="1699594330787"
     viewBox="0 0 1024 1024"
     version="1.1"
@@ -46,10 +46,10 @@ const cv = (
       p-id="9931"
     ></path>
   </svg>
-);
+)
 const bd = (
   <svg
-    //@ts-expect-error
+    // @ts-expect-error
     t="1699594191983"
     viewBox="-100 -100 1224 1224"
     version="1.1"
@@ -69,10 +69,10 @@ const bd = (
       p-id="5229"
     ></path>
   </svg>
-);
+)
 const An = (
   <svg
-    //@ts-expect-error
+    // @ts-expect-error
     t="1699594364348"
     viewBox="0 0 1024 1024"
     version="1.1"
@@ -86,10 +86,10 @@ const An = (
       p-id="11192"
     ></path>
   </svg>
-);
+)
 const fd = (
   <svg
-    //@ts-expect-error
+    // @ts-expect-error
     t="1699594039081"
     viewBox="0 0 1024 1024"
     version="1.1"
@@ -111,10 +111,10 @@ const fd = (
       p-id="1585"
     ></path>
   </svg>
-);
+)
 const ui = (
   <svg
-    //@ts-expect-error
+    // @ts-expect-error
     t="1699594251437"
     viewBox="0 60 1024 1024"
     version="1.1"
@@ -129,76 +129,67 @@ const ui = (
       p-id="8899"
     ></path>
   </svg>
-);
+)
 
-let locatVal: number = 0;
-let startX: number = 0;
-let flag1: boolean = true;
-let flag2: boolean = true;
-let flag3: boolean = true;
+const locatVal: number = 0
+let startX: number = 0
+let flag1: boolean = true
+const flag2: boolean = true
+let flag3: boolean = true
 
 const OccupationList = (props: OccupationListProps) => {
-  let [locat, setlocat] = React.useState(0);
-  let [sta, setsta] = React.useState("none");
+  const [locat, setlocat] = React.useState(0)
+  const [sta, setsta] = React.useState('none')
   function changeOccupation(target: string) {
-    props.ParticleContext.ChangeModel("qr");
+    props.ParticleContext.ChangeModel('qr')
     // ParticleSystem.composer.removePass(new BloomPass(0.75));
-    console.dir(ParticleSystem);
-
-    props.changeOccupation(target);
+    props.changeOccupation(target)
   }
   const rotate = (e: MouseEvent) => {
     if (flag3) {
-      flag3 = false;
-      startX = e.clientX;
-      document.removeEventListener("mousemove", move);
-      document.addEventListener("mousemove", move);
-      setTimeout(() => {
-        flag3 = true;
-      }, 1000);
+      flag3 = false
+      startX = e.clientX
+      document.removeEventListener('mousemove', move)
+      document.addEventListener('mousemove', move)
     }
-  };
+  }
 
   const move = React.useCallback((e: MouseEvent) => {
-    let x = e.clientX - startX;
-    setlocat(x / 10);
-    console.log(locat);
-  }, []);
+    if (flag3) return
+    const x = e.clientX - startX
+    setlocat(x / 10)
+    console.log(locat)
+  }, [])
 
   React.useEffect(() => {
-    if (flag2) {
-      flag2 = false;
-      document.addEventListener("mouseup", () => {
-        adde();
-      });
-      setTimeout(() => {
-        flag2 = true;
-      }, 200);
-    }
-  }, []);
+    document.addEventListener('mouseup', () => {
+      adde()
+      adjust()
+    })
+  }, [])
 
   const adde = () => {
     if (flag1) {
-      flag1 = false;
-      document.removeEventListener("mousemove", move);
-      adjust();
+      flag3 = true
+      flag1 = false
+      document.removeEventListener('mousemove', move)
       setTimeout(() => {
-        flag1 = true;
-      }, 200);
+        flag1 = true
+      }, 200)
     }
-  };
+  }
 
   const adjust = React.useCallback(() => {
-    if (sta == "none") {
-      setsta("transform 0.8s");
+    if (sta === 'none') {
+      setsta('transform 0.8s')
       setlocat(
         locat > 0 ? Math.floor(locat / 36) * 72 : Math.ceil(locat / 36) * 72
-      );
+      )
       setTimeout(() => {
-        setsta("none");
-      }, 800);
+        setsta('none')
+      }, 800)
     }
-  }, [locat]);
+  }, [locat])
 
   return (
     <div
@@ -208,75 +199,75 @@ const OccupationList = (props: OccupationListProps) => {
       <div
         style={{
           transform: `rotateY(${locat}deg)`,
-          transition: `${sta}`,
+          transition: `${sta}`
         }}
         className={`${Styles.select}`}
       >
         <OccupationListItem
           style={{
-            transform: `rotateY(${degree.a}deg) translateZ(${inch}rem)`,
+            transform: `rotateY(${degree.a}deg) translateZ(${inch}rem)`
           }}
-          onClick={flag2 ? () => changeOccupation("视觉") : () => {}}
+          onClick={flag2 ? () => changeOccupation('视觉') : () => { }}
           child={cv}
         >
-          {["视觉", "computer vision"]}
+          {['视觉', 'computer vision']}
         </OccupationListItem>
         <OccupationListItem
           style={{
-            transform: `rotateY(${degree.b}deg) translateZ(${inch}rem)`,
+            transform: `rotateY(${degree.b}deg) translateZ(${inch}rem)`
           }}
-          onClick={flag2 ? () => changeOccupation("后端") : () => {}}
+          onClick={flag2 ? () => changeOccupation('后端') : () => { }}
           child={bd}
         >
-          {["后端", "back-end"]}
+          {['后端', 'back-end']}
         </OccupationListItem>
         <OccupationListItem
           style={{
-            transform: `rotateY(${degree.c}deg) translateZ(${inch}rem)`,
+            transform: `rotateY(${degree.c}deg) translateZ(${inch}rem)`
           }}
           onClick={
             flag2
               ? () => {
-                  changeOccupation("安卓");
+                  changeOccupation('安卓')
                 }
-              : () => {}
+              : () => { }
           }
           child={An}
         >
-          {["安卓", "android"]}
+          {['安卓', 'android']}
         </OccupationListItem>
         <OccupationListItem
           style={{
-            transform: `rotateY(${degree.d}deg) translateZ(${inch}rem)`,
+            transform: `rotateY(${degree.d}deg) translateZ(${inch}rem)`
           }}
-          onClick={flag2 ? () => changeOccupation("前端") : () => {}}
+          onClick={flag2 ? () => changeOccupation('前端') : () => { }}
           child={fd}
         >
-          {["前端", "front-end"]}
+          {['前端', 'front-end']}
         </OccupationListItem>
         <OccupationListItem
           style={{
-            transform: `rotateY(${degree.e}deg) translateZ(${inch}rem)`,
+            transform: `rotateY(${degree.e}deg) translateZ(${inch}rem)`
           }}
-          onClick={flag2 ? () => changeOccupation("UI") : () => {}}
+          onClick={flag2 ? () => changeOccupation('UI') : () => { }}
           child={ui}
         >
-          {["UI", "interface-design"]}
+          {['UI', 'interface-design']}
         </OccupationListItem>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default connect(
   ({ OccupationStore, ParticleContextStore }) => ({
     occupation: OccupationStore.occupation,
-    ParticleContext: ParticleContextStore.ParticleContext,
+    ParticleContext: ParticleContextStore.ParticleContext
   }),
   {
-    changeOccupation,
+    changeOccupation
   }
-)(OccupationList);
+)(OccupationList)
 
 // const ele = {[
 // `<svg t="1699594330787" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9930" width="200" height="200"><path d="M798.72 122.88a102.4 102.4 0 0 1 102.2976 97.95584L901.12 225.28v409.6a102.4 102.4 0 0 1-97.95584 102.2976L798.72 737.28H532.48v102.4h163.84a20.48 20.48 0 0 1 0 40.96H327.68a20.48 20.48 0 0 1 0-40.96h163.84v-102.4H225.28a102.4 102.4 0 0 1-102.2976-97.95584L122.88 634.88V225.28a102.4 102.4 0 0 1 97.95584-102.2976L225.28 122.88h573.44z m0 40.96H225.28a61.44 61.44 0 0 0-61.3376 57.83552L163.84 225.28v409.6a61.44 61.44 0 0 0 57.83552 61.3376L225.28 696.32h573.44a61.44 61.44 0 0 0 61.3376-57.83552L860.16 634.88V225.28a61.44 61.44 0 0 0-57.83552-61.3376L798.72 163.84z m-286.72 122.88c67.56352 0 128.6144 35.9424 182.55872 105.84064a61.46048 61.46048 0 0 1 2.31424 71.80288l-2.4576 3.39968-5.16096 6.57408C636.66176 539.81184 577.3312 573.44 512 573.44c-67.56352 0-128.6144-35.9424-182.55872-105.84064a61.46048 61.46048 0 0 1-2.31424-71.80288l2.4576-3.39968 5.16096-6.57408C387.33824 320.34816 446.6688 286.72 512 286.72z m0 40.96c-49.90976 0-96.50176 25.3952-140.32896 77.7216l-4.87424 5.91872-4.9152 6.2464a20.48 20.48 0 0 0 0 25.02656C408.61696 503.17312 458.42432 532.48 512 532.48c49.90976 0 96.50176-25.3952 140.32896-77.7216l4.87424-5.91872 4.9152-6.2464a20.48 20.48 0 0 0 0-25.02656C615.38304 356.98688 565.57568 327.68 512 327.68z m0 20.48a81.92 81.92 0 1 1 0 163.84 81.92 81.92 0 0 1 0-163.84z m0 40.96a40.96 40.96 0 1 0 0 81.92 40.96 40.96 0 0 0 0-81.92z" fill="#000000" p-id="9931"></path></svg>`,
@@ -286,8 +277,8 @@ export default connect(
 // `<svg t="1699594251437" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8898" width="200" height="200"><path d="M967.082667 284.416L739.584 56.917333 512 284.416 284.416 56.917333 56.917333 284.416 284.416 512 56.917333 739.584v227.498667h227.498667L512 739.584l227.584 227.498667 227.498667-227.498667L739.584 512l227.498667-227.584zM290.133333 438.016L386.816 341.333333l-39.765333-39.850666-96.768 96.768-34.133334-34.133334 102.4-102.4L273.066667 221.866667 176.384 324.266667 136.533333 284.416 284.416 136.533333l187.733333 187.733334L324.266667 472.149333l-34.133334-34.133333z m-176.384 472.234667V796.416l113.834667 113.834667H113.749333z m170.666667-22.784L136.533333 739.584 739.584 136.533333 887.466667 284.416 284.416 887.466667zM887.466667 739.584L739.584 887.466667 699.733333 847.616l102.4-102.4-39.850666-39.765333-102.4 102.4-34.133334-34.133334 102.4-102.4L682.666667 631.466667 580.266667 733.866667l-34.133334-34.133334 147.882667-147.882666 193.450667 187.733333z" fill="#4A4A4A" p-id="8899"></path></svg>`
 // ]}
 
-//计算机视觉
-//后端
-//移动端
+// 计算机视觉
+// 后端
+// 移动端
 // 前端
-//UI
+// UI
