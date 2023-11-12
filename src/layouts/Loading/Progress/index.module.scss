@@ -1,4 +1,15 @@
 .progress {
-  margin-top: .1rem;
+  transform: translateY(-160%);
   font-size: .5rem;
+  position: absolute;
+  transition: opacity 1s ease-in;
+  opacity: 1;
+}
+
+.progress2{
+  transform: translateY(-160%);
+  font-size: .5rem;
+  position: absolute;
+  transition: opacity 1s ease-in;
+  opacity: 0;
 }

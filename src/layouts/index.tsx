@@ -1,40 +1,40 @@
-import * as React from 'react'
-import Styles from './index.module.scss'
-import IndexPage from '@/pages/IndexPage'
-import StateBar from './StateBar'
-import BottomText from './BottomText'
-import Loading, { LoadingMethods } from './Loading'
-import WebGLMask from './WebGL'
+import * as React from "react";
+import Styles from "./index.module.scss";
+import IndexPage from "@/pages/IndexPage";
+import StateBar from "./StateBar";
+import BottomText from "./BottomText";
+import Loading, { LoadingMethods } from "./Loading";
+import WebGLMask from "./WebGL";
 
-import { connect } from 'react-redux'
-import { scroll } from '@/store/hasEnter/action'
+import { connect } from "react-redux";
+import { scroll } from "@/store/hasEnter/action";
 
 interface LayoutProps {
-  enter: boolean
-  scroll: Function
-  finishLoadMark: boolean
+  enter: boolean;
+  scroll: Function;
+  finishLoadMark: boolean;
 }
 
 const Layout: React.FunctionComponent<LayoutProps> = (props) => {
-  const LoadingRef = React.createRef<LoadingMethods>()
-  const IndexRef = React.createRef<any>()
+  const LoadingRef = React.createRef<LoadingMethods>();
+  const IndexRef = React.createRef<any>();
   const onEnter = () => {
-    IndexRef?.current.beginPerform()
-  }
+    IndexRef?.current.beginPerform();
+  };
 
-  const [outerScroll, setOuterScroll] = React.useState(false)
+  const [outerScroll, setOuterScroll] = React.useState(false);
 
   React.useEffect(() => {
     if (props.enter) {
       setTimeout(() => {
-        props.scroll()
-        setOuterScroll(true)
-      }, 5000)
+        props.scroll();
+        setOuterScroll(true);
+      }, 5000);
     }
     if (props.finishLoadMark) {
-      LoadingRef.current?.FinishLoad()
+      LoadingRef.current?.FinishLoad();
     }
-  }, [props.enter, props.finishLoadMark])
+  }, [props.enter, props.finishLoadMark]);
 
   return (
     <div className={Styles.layout}>
@@ -48,10 +48,13 @@ const Layout: React.FunctionComponent<LayoutProps> = (props) => {
         </div>
       </React.Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ HasEnterStore }) => ({
-  enter: HasEnterStore.hasEnter,
-  finishLoadMark: HasEnterStore.finishLoad
-}), { scroll })(Layout)
+export default connect(
+  ({ HasEnterStore }) => ({
+    enter: HasEnterStore.hasEnter,
+    finishLoadMark: HasEnterStore.finishLoad,
+  }),
+  { scroll }
+)(Layout);

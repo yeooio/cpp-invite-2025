@@ -12,10 +12,12 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 2.6rem;
+    top: 2rem;
     left: 50%;
     font-size: .6rem;
     transform: translateX(-50%);
+    user-select: none;
+    -webkit-user-select: none;
 
     .line_left,
     .line_right {

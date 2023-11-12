@@ -1,6 +1,6 @@
-import * as React from 'react'
-import Styles from './index.module.scss'
-import Stage from './Stage'
+import * as React from "react";
+import Styles from "./index.module.scss";
+import Stage from "./Stage";
 
 function QRCode() {
   return (
@@ -12,7 +12,7 @@ function QRCode() {
       </div>
       <Stage />
     </div>
-  )
+  );
 }
 
-export default QRCode
+export default QRCode;

@@ -1,25 +1,121 @@
 .item {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 20%;
-  height: 100%;
+  width: 6rem;
+  height: 8rem;
   background-image: url(@/assets/images/lightBall.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  opacity: 0.8;
+  // opacity: 0.8;
+  transform: scale(1.2);
+  transition: opacity .3s;
+  cursor: pointer;
+  backface-visibility: hidden;
+
+  .text {
+    user-select: none;
+    font-size: .5rem;
+    font-weight: 700;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+  }
+
+  .textsmall {
+    user-select: none;
+    font-size: .4rem;
+    font-weight: 400;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    margin-top: 0.2rem;
+  }
+
+  .svgp {
+    -webkit-user-select: none;
+    user-select: none;
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.9;
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .625rem;
+        animation: dash 8s ease-in infinite;
+        animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.6);
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 0 4500;
+          stroke-dashoffset: 0;
+        }
+
+        100% {
+          stroke-dasharray: 4500 4500;
+          stroke-dashoffset: -4500;
+        }
+      }
+    }
+  }
+
+  .svga {
+    -webkit-user-select: none;
+    user-select: none;
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.5;
+    transform: translateY(-0.1rem);
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .625rem;
+      }
+    }
+  }
+}
+
+.item2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 6rem;
+  height: 8rem;
+  background-image: url(@/assets/images/lightBall.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
   transform: scale(1.2);
   transition: opacity .3s;
   cursor: pointer;
 
-  &:hover {
-    opacity: 1;
-  }
+  .logo_svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    vertical-align: middle;
 
-  .text {
-    font-size: .5rem;
-    font-weight: 700;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: rotateY(180deg);
+    }
   }
 }
 
@@ -28,4 +124,135 @@
     width: 50%;
     height: 33.33%;
   }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 4.5rem;
+    height: 6rem;
+    background-image: url(@/assets/images/lightBall.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    // opacity: 0.8;
+    transform: scale(1.2);
+    transition: opacity .3s;
+    cursor: pointer;
+    backface-visibility: hidden;
+
+    .text {
+      user-select: none;
+      font-size: .35rem;
+      font-weight: 700;
+      width: 1.5rem;
+      height: 1.5rem;
+      text-align: center;
+    }
+
+    .textsmall {
+      user-select: none;
+      font-size: .3rem;
+      font-weight: 400;
+      width: 3rem;
+      height: 1.5rem;
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .svgp {
+      -webkit-user-select: none;
+      user-select: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      opacity: 0.9;
+
+      svg {
+        width: 100%;
+        height: 100%;
+
+        path {
+          fill: none;
+          stroke: #fff;
+          stroke-width: .625rem;
+          animation: dash 8s ease-in infinite;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.6);
+        }
+
+        @keyframes dash {
+          0% {
+            stroke-dasharray: 0 4500;
+            stroke-dashoffset: 0;
+          }
+
+          100% {
+            stroke-dasharray: 4500 4500;
+            stroke-dashoffset: -4500;
+          }
+        }
+      }
+    }
+
+    .svga {
+      -webkit-user-select: none;
+      user-select: none;
+      position: absolute;
+      width: 1.5rem;
+      height: 1.5rem;
+      opacity: 0.5;
+      transform: translateY(-0.05rem);
+
+      svg {
+        width: 100%;
+        height: 100%;
+
+        path {
+          fill: none;
+          stroke: #fff;
+          stroke-width: .325rem;
+        }
+      }
+    }
+  }
+
+  .item2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.5rem;
+    height: 6rem;
+    background-image: url(@/assets/images/lightBall.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 1;
+    transform: scale(1.2);
+    transition: opacity .3s;
+    cursor: pointer;
+
+    .logo_svg {
+      width: 1rem;
+      height: 1rem;
+      display: inline-block;
+      vertical-align: middle;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: rotateY(180deg);
+      }
+    }
+  }
 }
+
+// // .asd {
+// //   position: absolute;
+// //   background-color: green;
+// //   width: 50px;
+// //   height: 50px;
+// //   opacity: 1;
+// //   backface-visibility: hidden;
+// //   transform: rotateY('180deg');
+// // }
