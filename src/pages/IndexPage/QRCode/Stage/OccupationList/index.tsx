@@ -157,7 +157,10 @@ const OccupationList = (props: OccupationListProps) => {
   const move = React.useCallback((e: MouseEvent) => {
     if (flag3) return
     const x = e.clientX - startX
-    setlocat(x / 10)
+    // 修复：基于当前角度进行累加，而不是重置
+    setlocat(prevLocat => prevLocat + x / 10)
+    // 更新起始位置，避免累积误差
+    startX = e.clientX
     console.log(locat)
   }, [])
 
@@ -182,9 +185,10 @@ const OccupationList = (props: OccupationListProps) => {
   const adjust = React.useCallback(() => {
     if (sta === 'none') {
       setsta('transform 0.8s')
-      setlocat(
-        locat > 0 ? Math.floor(locat / 36) * 72 : Math.ceil(locat / 36) * 72
-      )
+      // 移除自动对齐逻辑，让卡片保持在当前位置
+      // setlocat(
+      //   locat > 0 ? Math.floor(locat / 36) * 72 : Math.ceil(locat / 36) * 72
+      // )
       setTimeout(() => {
         setsta('none')
       }, 800)
