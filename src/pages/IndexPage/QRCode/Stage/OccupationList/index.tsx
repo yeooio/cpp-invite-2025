@@ -17,11 +17,19 @@ type OccupationListProps = React.PropsWithChildren<{
 
 const degree = {
   a: 0,
-  b: 72,
-  c: 144,
-  d: 216,
-  e: 288
+  b: 60,
+  c: 120,
+  d: 180,
+  e: 240,
+  f: 300
 }
+// 嵌入式 svg
+const em = (
+  <svg viewBox="0 0 1024 1024" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.3 0-372-166.7-372-372S306.7 140 512 140s372 166.7 372 372-166.7 372-372 372zm0-672c-165.7 0-300 134.3-300 300s134.3 300 300 300 300-134.3 300-300-134.3-300-300-300zm0 540c-132.5 0-240-107.5-240-240s107.5-240 240-240 240 107.5 240 240-107.5 240-240 240z" fill="#4A4A4A"/>
+    <circle cx="512" cy="512" r="120" fill="#515152"/>
+  </svg>
+)
 let inch: number
 if (isMobile()) {
   inch = 4
@@ -140,6 +148,8 @@ let flag3: boolean = true
 const OccupationList = (props: OccupationListProps) => {
   const [locat, setlocat] = React.useState(0)
   const [sta, setsta] = React.useState('none')
+  // 用ref保存最新角度
+  const locatRef = React.useRef(0)
   function changeOccupation(target: string) {
     props.ParticleContext.ChangeModel('qr')
     // ParticleSystem.composer.removePass(new BloomPass(0.75));
@@ -157,17 +167,19 @@ const OccupationList = (props: OccupationListProps) => {
   const move = React.useCallback((e: MouseEvent) => {
     if (flag3) return
     const x = e.clientX - startX
-    // 修复：基于当前角度进行累加，而不是重置
-    setlocat(prevLocat => prevLocat + x / 10)
-    // 更新起始位置，避免累积误差
+    // 基于当前角度进行累加
+    setlocat(prevLocat => {
+      const next = prevLocat + x / 10
+      locatRef.current = next
+      return next
+    })
     startX = e.clientX
-    console.log(locat)
   }, [])
 
   React.useEffect(() => {
     document.addEventListener('mouseup', () => {
       adde()
-      adjust()
+      adjust(locatRef.current)
     })
   }, [])
 
@@ -182,18 +194,33 @@ const OccupationList = (props: OccupationListProps) => {
     }
   }
 
-  const adjust = React.useCallback(() => {
+  // 接收当前角度参数
+  const adjust = React.useCallback((currentLocat: number) => {
     if (sta === 'none') {
       setsta('transform 0.8s')
-      // 移除自动对齐逻辑，让卡片保持在当前位置
-      // setlocat(
-      //   locat > 0 ? Math.floor(locat / 36) * 72 : Math.ceil(locat / 36) * 72
-      // )
+      const step = 60
+      // 归一化 currentLocat 到 0~360
+      let normCurrent = ((currentLocat % 360) + 360) % 360
+      let target = Math.round(normCurrent / step) * step
+      // 归一化 target 到 0~360
+      target = ((target % 360) + 360) % 360
+      // 计算最短路径
+      let delta = target - normCurrent
+      if (delta > 180) {
+        delta -= 360
+      } else if (delta < -180) {
+        delta += 360
+      }
+      const finalTarget = currentLocat + delta
+      // 调试输出
+      console.log('自动对齐角度:', currentLocat, 'normCurrent:', normCurrent, '=>', finalTarget, 'delta:', delta)
+      setlocat(finalTarget)
+      locatRef.current = finalTarget
       setTimeout(() => {
         setsta('none')
       }, 800)
     }
-  }, [locat])
+  }, [sta])
 
   return (
     <div
@@ -257,6 +284,15 @@ const OccupationList = (props: OccupationListProps) => {
           child={ui}
         >
           {['UI', 'interface-design']}
+        </OccupationListItem>
+        <OccupationListItem
+          style={{
+            transform: `rotateY(${degree.f}deg) translateZ(${inch}rem)`
+          }}
+          onClick={flag2 ? () => changeOccupation('嵌入式') : () => { }}
+          child={em}
+        >
+          {['嵌入式', 'embedded']}
         </OccupationListItem>
       </div>
     </div>
